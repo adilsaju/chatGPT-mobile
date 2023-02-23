@@ -1,0 +1,47 @@
+  const command = 'python3';
+  const args = ['bin/initialize.py'];
+
+  
+
+  const pythonProcess = spawn(command, args, {
+    stdio: ['pipe', 'pipe', 'pipe', 'ipc']
+  });
+  // pythonProcess.stdin.write('import json\nimport gpt\nconfig = json.load(open("config.json"))\nchatbot = gpt.Chatbot(api_key=config["key"])\n');
+
+  // Listen for output from the second Python process
+  pythonProcess.stdout.on('data', (data) => {
+    console.log(`Python script output 1: ${data}`);
+  });
+
+
+
+  // Use the Python object with a new process
+  const pythonProcess2 = spawn('python3', ['bin/ask.py'], {
+    stdio: ['pipe', 'pipe', 'pipe', pythonProcess.stdio[3]]
+  });
+  // pythonProcess2.stdin.write('chatbot.say("Hello from Node.js!")\n');
+
+
+
+
+  // Listen for output from the second Python process
+  pythonProcess2.stdout.on('data', (data) => {
+    console.log(`Python script output (process 2): ${data}`);
+  });
+
+  // Handle errors and exit events
+  pythonProcess.on('error', (error) => {
+    console.error(`Error starting Python script: ${error}`);
+  });
+
+  pythonProcess.on('exit', (code) => {
+    console.log(`Python script exited with code ${code}`);
+  });
+
+  pythonProcess2.on('error', (error) => {
+    console.error(`Error starting Python script (process 2): ${error}`);
+  });
+
+  pythonProcess2.on('exit', (code) => {
+    console.log(`Python script (process 2) exited with code ${code}`);
+  });
