@@ -1,12 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Chat1 from './components/Chat1';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 
 export default function App() {
   return (
+    <SafeAreaProvider>
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      {/* <Text>Open up App.js to start working on your app!</Text> */}
+      <Chat1></Chat1>
       <StatusBar style="auto" />
     </View>
+    </SafeAreaProvider>
   );
 }
 
