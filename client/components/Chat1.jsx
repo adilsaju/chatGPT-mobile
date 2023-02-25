@@ -6,6 +6,8 @@ const CHAT_ENDPOINT = 'http://localhost:3000/messages';
 const Chat1 = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [sender, setSender] = useState("User");
+
 
   useEffect(() => {
     fetchMessages();
@@ -28,7 +30,7 @@ const Chat1 = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message, sender: sender }),
       });
       
       if (!response.ok) {
@@ -39,7 +41,7 @@ const Chat1 = () => {
       console.log('Message sent successfully!');
       
       // Add the new message to the messages array
-      setMessages([...messages, { id: Date.now(), text: message }]);
+      setMessages([...messages, { id: Date.now(), message: message, sender: sender }]);
       
       // Clear the message input
       setMessage('');
@@ -51,7 +53,9 @@ const Chat1 = () => {
   const renderItem = ({ item }) => {
     return (
       <View style={styles.message}>
-        <Text>{item.text}</Text>
+        <Text style={styles.sender} >{item.sender}</Text>
+        <Text>{item.message}</Text>
+
       </View>
     );
   };
@@ -68,6 +72,7 @@ const Chat1 = () => {
           style={styles.input}
           value={message}
           onChangeText={(text) => setMessage(text)}
+          onSubmitEditing={handleSend}
         />
         <Button
           title="Send"
@@ -107,6 +112,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginRight: 10,
   },
+  sender: {
+    // backgroundColor: "red"
+    color: "grey"
+  }
 });
 
 export default Chat1;

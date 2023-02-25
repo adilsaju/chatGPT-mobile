@@ -3,32 +3,42 @@
     {
       "id": "1",
       "sender": "John",
-      "text": "Hey there!",
+      "message": "Hey there!",
       "timestamp": "2022-02-24T10:30:00Z"
     },
     {
       "id": "2",
       "sender": "Jane",
-      "text": "Hi John, how are you?",
+      "message": "Hi John, how are you?",
       "timestamp": "2022-02-24T10:31:00Z"
     },
     {
       "id": "3",
       "sender": "John",
-      "text": "I'm good, thanks for asking!",
+      "message": "I'm good, thanks for asking!",
       "timestamp": "2022-02-24T10:32:00Z"
     },
     {
-      "message": "hey",
-      "id": "rUOmeA8"
+      "message": "hiiii",
+      "id": "aySp_zj"
     },
     {
-      "message": "how are you",
-      "id": "2bQ4Ak1"
+      "message": "hello",
+      "id": "ViQ8mj8"
     },
     {
-      "message": "hey",
-      "id": "M27Yb7h"
+      "adil": "adil",
+      "id": "pFiTXRn"
+    },
+    {
+      "message": "hella",
+      "sender": "User",
+      "id": "uWdlhhf"
+    },
+    {
+      "message": "tin",
+      "sender": "User",
+      "id": "KrKiEOJ"
     }
   ]
 }
