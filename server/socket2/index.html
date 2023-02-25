@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <button onclick="abc()">EMIT</button> -->
+
+
+    <div class="App">
+       
+          <div class="joinChatContainer">
+            <h3>Join A Chat</h3>
+            <input
+            id="name"
+              type="text"
+              placeholder="John..."
+              
+            />
+            <input
+            id="room"
+              type="text"
+              placeholder="Room ID..."
+              
+            />
+            <button onClick="joinRoom(event)">Join A Room</button>
+          </div>
+        
+
+          <div className="chat-window">
+            <div className="chat-header">
+              <p>Live Chat</p>
+            </div>
+            <div className="chat-body" style="height: 10rem;border: 1px solid black">
+                <h3>chat body</h3>
+                <div id="kk"></div>
+
+            </div>
+
+
+
+            <div className="chat-footer">
+              <input
+              id="currentMessage"
+                type="text"
+                placeholder="Hey..."
+              />
+              <button onClick="sendMessage(event)">&#9658;</button>
+            </div>
+          </div>
+
+
+      </div>
+
+
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script>
+            let messageList = []
+            
+
+            function abc() {
+                // Emit a message to the server
+                socket.emit('message', 'Hello server!');
+                console.log("message sent");
+            }
+
+            function joinRoom(e) {
+                console.log("guy joined");
+                socket.emit("join_room", document.querySelector("#room").value);
+            }
+
+            async function sendMessage() {
+                console.log("senttt");
+
+                    const messageData = {
+                      room: document.querySelector("#room").value,
+                      author: document.querySelector("#name").value,
+                      message: document.querySelector("#currentMessage").value,
+                      time:
+                        new Date(Date.now()).getHours() +
+                        ":" +
+                        new Date(Date.now()).getMinutes(),
+                    };
+              
+                    await socket.emit("send_message", messageData);
+                    messageList = [...messageList, messageData]
+
+                    await update();
+                    currentMessage=""
+                  
+            }
+            function update() {
+                document.querySelector("#kk").innerHTML = JSON.stringify(messageList)
+            }
+
+
+            const socket = io.connect('http://localhost:5001'); // Replace the URL with your server's URL
+
+            // Listen for a connection event
+            socket.on('connection', () => {
+            console.log('Connected to server!');
+            });
+
+
+            socket.on("receive_message", (data) => {
+                console.log(`Received message from server: `);
+                console.log(data);
+                messageList = [...messageList, data]
+                console.log("msg list");
+                console.log(messageList);
+                update();
+              });
+
+
+
+            // Listen for a disconnection event
+            socket.on('disconnect', () => {
+            console.log('Disconnected from server.');
+            });
+    </script>
+</body>
+</html>
+
+
+
+
+
+<!-- <div
+className="message"
+
+> -->
+                    <!-- id="you" -->
+<!-- id="other" -->
+
+
+<!-- <div>
+  <div className="message-content">
+    <p>{messageContent.message}</p>
+  </div>
+  <div className="message-meta">
+    <p id="time">{messageContent.time}</p>
+    <p id="author">{messageContent.author}</p>
+  </div>
+</div>
+</div> -->
