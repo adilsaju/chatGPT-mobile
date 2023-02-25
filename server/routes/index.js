@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const config = require("../config.json")
+const cors = require("cors")
 const {
   spawn
 } = require('child_process');
@@ -8,6 +9,8 @@ const {
 // Declare a global variable to store the pythonProcess object
 let pythonProcess;
 console.log("reset");
+
+router.use(cors())
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
