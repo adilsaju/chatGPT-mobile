@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, Button, FlatList, Text } from 'react-native';
+import { StyleSheet, View, TextInput, Button, FlatList, Text, KeyboardAvoidingView } from 'react-native';
 
-const CHAT_ENDPOINT = 'http://localhost:3000/messages';
-const connection_api = 'http://localhost:3000/connection';
-const message_api = 'http://localhost:3000/message';
+const CHAT_ENDPOINT = 'http://192.168.5.131:3000/messages';
+const connection_api = 'http://192.168.5.131:3000/connection';
+const message_api = 'http://192.168.5.131:3000/message';
 
 
 
@@ -72,7 +72,7 @@ const Chat1 = () => {
       // Add the new message to the messages array
       // setMessages([...messages, { id: Date.now(), message: message, sender: sender }]);
       // setMessages([...messages, { id: Date.now(), message: data1.output, sender: "Chatgpt" }])
-      setMessages(prevMessages => [...prevMessages, { id: Date.now(), message: data1.output, sender: "Chatgpt" }]);
+      setMessages(prevMessages => [...prevMessages, { id: Date.now(), message: data1.output.trim(), sender: "Chatgpt" }]);
       
 
     } catch (error) {
@@ -91,8 +91,13 @@ const Chat1 = () => {
   };
 
   return (
+    <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior="padding"
+    keyboardVerticalOffset={64} // adjust this value as needed
+  >
     <View style={styles.container}>
-      <Text style={{ textAlign: "center", padding: "1.5rem" }}>Ask Anything!</Text>
+      <Text style={{ textAlign: "center", padding: "24%" }}>Ask Anything!</Text>
       <FlatList
         data={messages}
         renderItem={renderItem}
@@ -103,7 +108,9 @@ const Chat1 = () => {
           style={styles.input}
           value={message}
           onChangeText={(text) => setMessage(text)}
-          onSubmitEditing={handleSend}
+          placeholder="Type a message..."
+          multiline={true}
+          // onSubmitEditing={handleSend}
         />
         <Button
           title="Send"
@@ -111,6 +118,7 @@ const Chat1 = () => {
         />
       </View>
     </View>
+    </KeyboardAvoidingView>
   );
 };
 
